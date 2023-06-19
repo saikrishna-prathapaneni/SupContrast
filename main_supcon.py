@@ -185,12 +185,13 @@ def set_model(opt):
         model = apex.parallel.convert_syncbn_model(model)
 
     if torch.cuda.is_available():
+        print()
         if torch.cuda.device_count() > 1:
             model.encoder = torch.nn.DataParallel(model.encoder)
         model = model.cuda()
         criterion = criterion.cuda()
         cudnn.benchmark = True
-
+    print("Number of GPU devices available:", torch.cuda.device_count())
     return model, criterion
 
 
